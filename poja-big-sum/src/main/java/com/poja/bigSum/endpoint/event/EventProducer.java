@@ -1,4 +1,4 @@
-package com.poja.nigSum.endpoint.event;
+package com.poja.bigSum.endpoint.event;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

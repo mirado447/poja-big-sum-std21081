@@ -1,4 +1,4 @@
-package com.poja.nig-sum.unit.objectMapper;
+package com.poja.bigSum.unit.objectMapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;

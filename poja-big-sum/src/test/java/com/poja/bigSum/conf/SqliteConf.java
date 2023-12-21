@@ -1,6 +1,6 @@
-package com.poja.nig-sum.conf;
+package com.poja.bigSum.conf;
 
-import com.poja.nig-sum.PojaGenerated;
+import com.poja.bigSum.PojaGenerated;
 import org.springframework.test.context.DynamicPropertyRegistry;
 
 @PojaGenerated

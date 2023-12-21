@@ -1,4 +1,4 @@
-package com.poja.nig-sum.unit.objectMapper;
+package com.poja.bigSum.unit.objectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.poja.nig-sum.conf.FacadeIT;
+import com.poja.bigSum.conf.FacadeIT;
 
 public class ObjectMapperTest extends FacadeIT {
   @Autowired ObjectMapper injectedBean;

@@ -1,7 +1,7 @@
-package com.poja.nig-sum.conf;
+package com.poja.bigSum.conf;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
-import com.poja.nig-sum.PojaGenerated;
+import com.poja.bigSum.PojaGenerated;
 
 @PojaGenerated
 public class BucketConf {

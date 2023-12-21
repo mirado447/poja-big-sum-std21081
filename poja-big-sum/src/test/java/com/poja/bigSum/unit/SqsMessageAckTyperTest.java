@@ -1,4 +1,4 @@
-package com.poja.nig-sum.unit;
+package com.poja.bigSum.unit;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,9 +14,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.poja.nig-sum.conf.FacadeIT;
-import com.poja.nig-sum.endpoint.event.EventConsumer;
-import com.poja.nig-sum.endpoint.event.gen.UuidCreated;
+import com.poja.bigSum.conf.FacadeIT;
+import com.poja.bigSum.endpoint.event.EventConsumer;
+import com.poja.bigSum.endpoint.event.gen.UuidCreated;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.DeleteMessageRequest;
 
@@ -49,7 +49,7 @@ public class SqsMessageAckTyperTest extends FacadeIT {
     var uuidCreated = UuidCreated.builder().uuid(uuid).build();
     var payload = om.readValue(om.writeValueAsString(uuidCreated), UuidCreated.class);
     var typedEvent =
-        new EventConsumer.TypedEvent("com.poja.nig-sum.endpoint.event.gen.UuidCreated", payload);
+        new EventConsumer.TypedEvent("com.poja.bigSum.endpoint.event.gen.UuidCreated", payload);
 
     var actualAcknowledgeableEvents = subject.apply(List.of(sqsMessageFrom(typedEvent)));
     var actualAcknowledgeableEvent = actualAcknowledgeableEvents.get(0);
