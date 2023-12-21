@@ -23,59 +23,59 @@ import static java.io.File.createTempFile;
 @AllArgsConstructor
 public class HealthEmailController {
 
-  Mailer mailer;
+    Mailer mailer;
 
-  @GetMapping(value = "/health/email")
-  public ResponseEntity<String> send_emails(@RequestParam String to)
-      throws AddressException, IOException {
-    var toInternetAddress = new InternetAddress(to);
-    mailer.accept(
-        new Email(
-            toInternetAddress,
-            List.of(),
-            List.of(),
-            "[poja health check 1/5] Subject only",
-            null,
-            List.of()));
+    @GetMapping(value = "/health/email")
+    public ResponseEntity<String> send_emails(@RequestParam String to)
+            throws AddressException, IOException {
+        var toInternetAddress = new InternetAddress(to);
+        mailer.accept(
+                new Email(
+                        toInternetAddress,
+                        List.of(),
+                        List.of(),
+                        "[poja health check 1/5] Subject only",
+                        null,
+                        List.of()));
 
-    var emailParts = to.split("@");
-    var emailUser = emailParts[0];
-    var emailDomain = "@" + emailParts[1];
-    mailer.accept(
-        new Email(
-            toInternetAddress,
-            List.of(new InternetAddress(emailUser + "+cc" + emailDomain)),
-            List.of(),
-            "[poja health check 2/5] With cc",
-            null,
-            List.of()));
+        var emailParts = to.split("@");
+        var emailUser = emailParts[0];
+        var emailDomain = "@" + emailParts[1];
+        mailer.accept(
+                new Email(
+                        toInternetAddress,
+                        List.of(new InternetAddress(emailUser + "+cc" + emailDomain)),
+                        List.of(),
+                        "[poja health check 2/5] With cc",
+                        null,
+                        List.of()));
 
-    mailer.accept(
-        new Email(
-            toInternetAddress,
-            List.of(),
-            List.of(new InternetAddress(emailUser + "+bcc" + emailDomain)),
-            "[poja health check 3/5] With bcc",
-            null,
-            List.of()));
+        mailer.accept(
+                new Email(
+                        toInternetAddress,
+                        List.of(),
+                        List.of(new InternetAddress(emailUser + "+bcc" + emailDomain)),
+                        "[poja health check 3/5] With bcc",
+                        null,
+                        List.of()));
 
-    mailer.accept(
-        new Email(
-            toInternetAddress,
-            List.of(),
-            List.of(),
-            "[poja health check 4/5] With body",
-            "<span><b>Hello!</b></span>",
-            List.of()));
+        mailer.accept(
+                new Email(
+                        toInternetAddress,
+                        List.of(),
+                        List.of(),
+                        "[poja health check 4/5] With body",
+                        "<span><b>Hello!</b></span>",
+                        List.of()));
 
-    mailer.accept(
-        new Email(
-            toInternetAddress,
-            List.of(),
-            List.of(),
-            "[poja health check 5/5] With attachment",
-            null,
-            List.of(createTempFile("attachment", ".txt"))));
-    return OK;
-  }
+        mailer.accept(
+                new Email(
+                        toInternetAddress,
+                        List.of(),
+                        List.of(),
+                        "[poja health check 5/5] With attachment",
+                        null,
+                        List.of(createTempFile("attachment", ".txt"))));
+        return OK;
+    }
 }

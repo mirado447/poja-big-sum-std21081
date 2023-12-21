@@ -1,6 +1,6 @@
-package com.poja.nig-sum.mail;
+package com.poja.bigSum.mail;
 
-import com.poja.nig-sum.PojaGenerated;
+import com.poja.bigSum.PojaGenerated;
 import jakarta.mail.internet.InternetAddress;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,13 +13,13 @@ import java.util.function.Consumer;
 @PojaGenerated
 public class EmailAddressVerifier implements Consumer<InternetAddress> {
 
-  private final EmailConf emailConf;
+    private final EmailConf emailConf;
 
-  @Override
-  public void accept(InternetAddress emailAddress) {
-    emailConf
-        .getSesClient()
-        .verifyEmailIdentity(
-            VerifyEmailIdentityRequest.builder().emailAddress(emailAddress.getAddress()).build());
-  }
+    @Override
+    public void accept(InternetAddress emailAddress) {
+        emailConf
+                .getSesClient()
+                .verifyEmailIdentity(
+                        VerifyEmailIdentityRequest.builder().emailAddress(emailAddress.getAddress()).build());
+    }
 }

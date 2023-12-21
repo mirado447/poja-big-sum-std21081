@@ -11,17 +11,18 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 @PojaGenerated
 @Configuration
 public class EventConf {
-  private final Region region;
-  @Getter private final String sqsQueue;
+    private final Region region;
+    @Getter
+    private final String sqsQueue;
 
-  public EventConf(
-      @Value("${aws.region}") Region region, @Value("${aws.sqs.queue.url}") String sqsQueue) {
-    this.region = region;
-    this.sqsQueue = sqsQueue;
-  }
+    public EventConf(
+            @Value("${aws.region}") Region region, @Value("${aws.sqs.queue.url}") String sqsQueue) {
+        this.region = region;
+        this.sqsQueue = sqsQueue;
+    }
 
-  @Bean
-  public SqsClient getSqsClient() {
-    return SqsClient.builder().region(region).build();
-  }
+    @Bean
+    public SqsClient getSqsClient() {
+        return SqsClient.builder().region(region).build();
+    }
 }

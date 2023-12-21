@@ -21,17 +21,17 @@ import static java.util.UUID.randomUUID;
 @AllArgsConstructor
 public class HealthEventController {
 
-  DummyUuidRepository dummyUuidRepository;
-  EventProducer eventProducer;
+    DummyUuidRepository dummyUuidRepository;
+    EventProducer eventProducer;
 
-  @GetMapping(value = "/health/event")
-  public ResponseEntity<String> random_uuid_is_fired_then_created() throws InterruptedException {
-    var randomUuid = randomUUID().toString();
-    var event = new UuidCreated().toBuilder().uuid(randomUuid).build();
+    @GetMapping(value = "/health/event")
+    public ResponseEntity<String> random_uuid_is_fired_then_created() throws InterruptedException {
+        var randomUuid = randomUUID().toString();
+        var event = new UuidCreated().toBuilder().uuid(randomUuid).build();
 
-    eventProducer.accept(List.of(event));
+        eventProducer.accept(List.of(event));
 
-    Thread.sleep(20_000);
-    return dummyUuidRepository.findById(randomUuid).map(dummyUuid -> OK).orElse(KO);
-  }
+        Thread.sleep(20_000);
+        return dummyUuidRepository.findById(randomUuid).map(dummyUuid -> OK).orElse(KO);
+    }
 }

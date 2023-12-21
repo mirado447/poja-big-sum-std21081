@@ -16,10 +16,10 @@ import static com.poja.bigSum.endpoint.rest.controller.health.PingController.OK;
 @AllArgsConstructor
 public class HealthDbController {
 
-  DummyRepository dummyRepository;
+    DummyRepository dummyRepository;
 
-  @GetMapping("/health/db")
-  public ResponseEntity<String> dummyTable_should_not_be_empty() {
-    return dummyRepository.findAll().isEmpty() ? KO : OK;
-  }
+    @GetMapping("/health/db")
+    public ResponseEntity<String> dummyTable_should_not_be_empty() {
+        return dummyRepository.findAll().isEmpty() ? KO : OK;
+    }
 }

@@ -1,15 +1,16 @@
-package com.poja.nig-sum.repository;
+package com.poja.bigSum.repository;
 
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.poja.nig-sum.PojaGenerated;
-import com.poja.nig-sum.repository.model.Dummy;
+import com.poja.bigSum.PojaGenerated;
+import com.poja.bigSum.repository.model.Dummy;
 
 @PojaGenerated
 @Repository
 public interface DummyRepository extends JpaRepository<Dummy, String> {
 
-  @Override
-  List<Dummy> findAll();
+    @Override
+    List<Dummy> findAll();
 }

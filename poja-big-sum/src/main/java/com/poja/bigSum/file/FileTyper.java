@@ -15,11 +15,11 @@ import static org.springframework.http.MediaType.parseMediaType;
 @Component
 public class FileTyper implements Function<File, MediaType> {
 
-  @SneakyThrows
-  @Override
-  public MediaType apply(File file) {
-    var tika = new Tika();
-    String detectedMediaType = tika.detect(file);
-    return parseMediaType(detectedMediaType);
-  }
+    @SneakyThrows
+    @Override
+    public MediaType apply(File file) {
+        var tika = new Tika();
+        String detectedMediaType = tika.detect(file);
+        return parseMediaType(detectedMediaType);
+    }
 }

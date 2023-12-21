@@ -1,4 +1,4 @@
-package com.poja.nig-sum;
+package com.poja.bigSum;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.METHOD;
@@ -12,4 +12,5 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target({TYPE, METHOD, CONSTRUCTOR})
-public @interface PojaGenerated {}
+public @interface PojaGenerated {
+}

@@ -1,7 +1,7 @@
-package com.poja.nig-sum.mail;
+package com.poja.bigSum.mail;
 
-import com.poja.nig-sum.PojaGenerated;
-import com.poja.nig-sum.file.FileTyper;
+import com.poja.bigSum.PojaGenerated;
+import com.poja.bigSum.file.FileTyper;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.mail.MessagingException;
@@ -34,79 +34,79 @@ import static jakarta.mail.Message.RecipientType.TO;
 @Component
 @AllArgsConstructor
 public class Mailer implements Consumer<Email> {
-  private final EmailConf emailConf;
-  private final FileTyper fileTyper;
+    private final EmailConf emailConf;
+    private final FileTyper fileTyper;
 
-  @Override
-  public void accept(Email email) {
-    try {
-      send(email);
-    } catch (MessagingException | IOException e) {
-      throw new RuntimeException(e);
+    @Override
+    public void accept(Email email) {
+        try {
+            send(email);
+        } catch (MessagingException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-  }
 
-  private void send(Email email) throws MessagingException, IOException {
-    var session = Session.getDefaultInstance(new Properties());
-    var mimeMessage = toMimeMessage(session, email);
-    mimeMessage.setContent(toMimeMultipart(email));
+    private void send(Email email) throws MessagingException, IOException {
+        var session = Session.getDefaultInstance(new Properties());
+        var mimeMessage = toMimeMessage(session, email);
+        mimeMessage.setContent(toMimeMultipart(email));
 
-    var outputStream = new ByteArrayOutputStream();
-    mimeMessage.writeTo(outputStream);
-    ByteBuffer byteBuffer = ByteBuffer.wrap(outputStream.toByteArray());
-    var bytes = new byte[byteBuffer.remaining()];
-    byteBuffer.get(bytes);
+        var outputStream = new ByteArrayOutputStream();
+        mimeMessage.writeTo(outputStream);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(outputStream.toByteArray());
+        var bytes = new byte[byteBuffer.remaining()];
+        byteBuffer.get(bytes);
 
-    var rawEmailRequest =
-        SendRawEmailRequest.builder()
-            .rawMessage(RawMessage.builder().data(SdkBytes.fromByteArray(bytes)).build())
-            .build();
+        var rawEmailRequest =
+                SendRawEmailRequest.builder()
+                        .rawMessage(RawMessage.builder().data(SdkBytes.fromByteArray(bytes)).build())
+                        .build();
 
-    emailConf.getSesClient().sendRawEmail(rawEmailRequest);
-  }
-
-  private MimeMessage toMimeMessage(Session session, Email email) throws MessagingException {
-    var message = new MimeMessage(session);
-    message.setFrom(new InternetAddress(emailConf.getSesSource()));
-    message.setRecipients(TO, email.to().toString());
-    message.setSubject(email.subject(), "UTF-8");
-    message.setRecipients(CC, email.cc().toArray(InternetAddress[]::new));
-    message.setRecipients(BCC, email.bcc().toArray(InternetAddress[]::new));
-    return message;
-  }
-
-  private MimeMultipart toMimeMultipart(Email email) throws MessagingException {
-    var htmlPart = new MimeBodyPart();
-    htmlPart.setContent(
-        email.htmlBody() == null ? "" : email.htmlBody(), "text/html; charset=UTF-8");
-    List<MimeBodyPart> attachmentsAsMimeBodyParts =
-        email.attachments().stream().map(this::toMimeBodyPart).toList();
-
-    var mimeMultipart = new MimeMultipart("mixed");
-    mimeMultipart.addBodyPart(htmlPart);
-    attachmentsAsMimeBodyParts.forEach(mimeBodyPart -> addBodyPart(mimeMultipart, mimeBodyPart));
-    return mimeMultipart;
-  }
-
-  private static void addBodyPart(MimeMultipart mimeMultipart, MimeBodyPart mimeBodyPart) {
-    try {
-      mimeMultipart.addBodyPart(mimeBodyPart);
-    } catch (MessagingException e) {
-      throw new RuntimeException(e);
+        emailConf.getSesClient().sendRawEmail(rawEmailRequest);
     }
-  }
 
-  private MimeBodyPart toMimeBodyPart(File attachment) {
-    var mimeBodyPart = new MimeBodyPart();
-    var fileMediaType = String.valueOf(fileTyper.apply(attachment));
-    try {
-      DataSource ds =
-          new ByteArrayDataSource(Files.readAllBytes(attachment.toPath()), fileMediaType);
-      mimeBodyPart.setDataHandler(new DataHandler(ds));
-      mimeBodyPart.setFileName(attachment.getName());
-      return mimeBodyPart;
-    } catch (IOException | MessagingException e) {
-      throw new RuntimeException(e);
+    private MimeMessage toMimeMessage(Session session, Email email) throws MessagingException {
+        var message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(emailConf.getSesSource()));
+        message.setRecipients(TO, email.to().toString());
+        message.setSubject(email.subject(), "UTF-8");
+        message.setRecipients(CC, email.cc().toArray(InternetAddress[]::new));
+        message.setRecipients(BCC, email.bcc().toArray(InternetAddress[]::new));
+        return message;
     }
-  }
+
+    private MimeMultipart toMimeMultipart(Email email) throws MessagingException {
+        var htmlPart = new MimeBodyPart();
+        htmlPart.setContent(
+                email.htmlBody() == null ? "" : email.htmlBody(), "text/html; charset=UTF-8");
+        List<MimeBodyPart> attachmentsAsMimeBodyParts =
+                email.attachments().stream().map(this::toMimeBodyPart).toList();
+
+        var mimeMultipart = new MimeMultipart("mixed");
+        mimeMultipart.addBodyPart(htmlPart);
+        attachmentsAsMimeBodyParts.forEach(mimeBodyPart -> addBodyPart(mimeMultipart, mimeBodyPart));
+        return mimeMultipart;
+    }
+
+    private static void addBodyPart(MimeMultipart mimeMultipart, MimeBodyPart mimeBodyPart) {
+        try {
+            mimeMultipart.addBodyPart(mimeBodyPart);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private MimeBodyPart toMimeBodyPart(File attachment) {
+        var mimeBodyPart = new MimeBodyPart();
+        var fileMediaType = String.valueOf(fileTyper.apply(attachment));
+        try {
+            DataSource ds =
+                    new ByteArrayDataSource(Files.readAllBytes(attachment.toPath()), fileMediaType);
+            mimeBodyPart.setDataHandler(new DataHandler(ds));
+            mimeBodyPart.setFileName(attachment.getName());
+            return mimeBodyPart;
+        } catch (IOException | MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

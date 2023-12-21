@@ -1,13 +1,14 @@
-package com.poja.nig-sum.service.event;
+package com.poja.bigSum.service.event;
 
 import java.util.function.Consumer;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.poja.nig-sum.PojaGenerated;
-import com.poja.nig-sum.endpoint.event.gen.UuidCreated;
-import com.poja.nig-sum.repository.DummyUuidRepository;
-import com.poja.nig-sum.repository.model.DummyUuid;
+import com.poja.bigSum.PojaGenerated;
+import com.poja.bigSum.endpoint.event.gen.UuidCreated;
+import com.poja.bigSum.repository.DummyUuidRepository;
+import com.poja.bigSum.repository.model.DummyUuid;
 
 @PojaGenerated
 @Service
@@ -15,12 +16,12 @@ import com.poja.nig-sum.repository.model.DummyUuid;
 @Slf4j
 public class UuidCreatedService implements Consumer<UuidCreated> {
 
-  private final DummyUuidRepository dummyUuidRepository;
+    private final DummyUuidRepository dummyUuidRepository;
 
-  @Override
-  public void accept(UuidCreated uuidCreated) {
-    var dummyUuid = new DummyUuid();
-    dummyUuid.setId(uuidCreated.getUuid());
-    dummyUuidRepository.save(dummyUuid);
-  }
+    @Override
+    public void accept(UuidCreated uuidCreated) {
+        var dummyUuid = new DummyUuid();
+        dummyUuid.setId(uuidCreated.getUuid());
+        dummyUuidRepository.save(dummyUuid);
+    }
 }

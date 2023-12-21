@@ -3,6 +3,7 @@ package com.poja.bigSum.endpoint.event;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -18,34 +19,34 @@ import com.poja.bigSum.PojaGenerated;
 @Slf4j
 public class EventServiceInvoker implements Consumer<EventConsumer.TypedEvent> {
 
-  private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-  @SneakyThrows
-  @Override
-  public void accept(EventConsumer.TypedEvent typedEvent) {
-    var typeName = typedEvent.typeName();
-    var eventClasses = getAllClasses("com.poja.nig-sum.endpoint.event.gen");
-    for (var clazz : eventClasses) {
-      if (clazz.getTypeName().equals(typeName)) {
-        var serviceClazz = Class.forName(getEventService(typeName));
-        var acceptMethod = serviceClazz.getMethod("accept", clazz);
-        acceptMethod.invoke(applicationContext.getBean(serviceClazz), typedEvent.payload());
-        return;
-      }
+    @SneakyThrows
+    @Override
+    public void accept(EventConsumer.TypedEvent typedEvent) {
+        var typeName = typedEvent.typeName();
+        var eventClasses = getAllClasses("com.poja.nig-sum.endpoint.event.gen");
+        for (var clazz : eventClasses) {
+            if (clazz.getTypeName().equals(typeName)) {
+                var serviceClazz = Class.forName(getEventService(typeName));
+                var acceptMethod = serviceClazz.getMethod("accept", clazz);
+                acceptMethod.invoke(applicationContext.getBean(serviceClazz), typedEvent.payload());
+                return;
+            }
+        }
+
+        throw new RuntimeException("Unexpected type for event=" + typedEvent);
     }
 
-    throw new RuntimeException("Unexpected type for event=" + typedEvent);
-  }
+    private String getEventService(String eventClazzName) {
+        var typeNameAsArray = eventClazzName.split("\\.");
+        return "com.poja.nig-sum.service.event."
+                + typeNameAsArray[typeNameAsArray.length - 1]
+                + "Service";
+    }
 
-  private String getEventService(String eventClazzName) {
-    var typeNameAsArray = eventClazzName.split("\\.");
-    return "com.poja.nig-sum.service.event."
-        + typeNameAsArray[typeNameAsArray.length - 1]
-        + "Service";
-  }
-
-  private Set<Class<?>> getAllClasses(String packageName) {
-    var reflections = new Reflections(packageName, Scanners.SubTypes.filterResultsBy(s -> true));
-    return new HashSet<>(reflections.getSubTypesOf(Object.class));
-  }
+    private Set<Class<?>> getAllClasses(String packageName) {
+        var reflections = new Reflections(packageName, Scanners.SubTypes.filterResultsBy(s -> true));
+        return new HashSet<>(reflections.getSubTypesOf(Object.class));
+    }
 }

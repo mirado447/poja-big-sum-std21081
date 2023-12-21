@@ -1,8 +1,10 @@
 package com.poja.bigSum.endpoint.event.gen;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import javax.annotation.processing.Generated;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +22,6 @@ import com.poja.bigSum.PojaGenerated;
 @EqualsAndHashCode
 @ToString
 public class UuidCreated implements Serializable {
-  @JsonProperty("uuid")
-  private String uuid;
+    @JsonProperty("uuid")
+    private String uuid;
 }

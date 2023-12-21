@@ -1,6 +1,6 @@
-package com.poja.nig-sum.mail;
+package com.poja.bigSum.mail;
 
-import com.poja.nig-sum.PojaGenerated;
+import com.poja.bigSum.PojaGenerated;
 import jakarta.mail.internet.InternetAddress;
 
 import java.io.File;
@@ -8,9 +8,10 @@ import java.util.List;
 
 @PojaGenerated
 public record Email(
-    InternetAddress to,
-    List<InternetAddress> cc,
-    List<InternetAddress> bcc,
-    String subject,
-    String htmlBody,
-    List<File> attachments) {}
+        InternetAddress to,
+        List<InternetAddress> cc,
+        List<InternetAddress> bcc,
+        String subject,
+        String htmlBody,
+        List<File> attachments) {
+}
